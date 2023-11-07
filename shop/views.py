@@ -1,13 +1,14 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,get_object_or_404
 from django.contrib.auth import login,logout,authenticate
-from .models import User
+from .models import User ,Product , Category
 from .forms import UserCreationFormByMe
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
 
 
 def homepage(request):
-    return render(request,'shop/home.html')
+    categories = Category.objects.all()
+    products = Product.objects.filter(available=True)
+    return render(request, 'shop/home.html', {'categories': categories, 'products': products})
 
 def loginuser(request):
     # return render(request,'users/login.html')
@@ -28,14 +29,7 @@ def logoutuser(request):
     logout(request)
     return redirect('homepage')
 
-# def register(request):
-#     forms = UserCreationFormByMe()
-#     context = {
-#         'forms':forms,
-#         'error':'fill the all field please'
-#     }
-#     print(forms)
-#     return render(request,'users/register.html',context)
+
 
 
 def register(request):
@@ -56,3 +50,27 @@ def register(request):
         context = {'form': form}
         return render(request, 'users/register.html', context)
     return render(request, 'users/register.html', {})
+
+
+def product_list(request, category_slug=None):
+    category = None
+    categories = Category.objects.all()
+    products = Product.objects.filter(available=True)
+    if category_slug:
+        category = get_object_or_404(Category, slug=category_slug)
+        products = products.filter(category=category)
+    return render(request, 'shop/product/list.html',
+                  {
+                      'category': category,
+                      'categories': categories,
+                      'products': products
+                  })
+
+
+
+def product_detail(request, id, slug):
+    product = get_object_or_404(Product, id=id, slug=slug)
+    return render(request, 'shop/detail.html', {'product': product})
+    
+
+
