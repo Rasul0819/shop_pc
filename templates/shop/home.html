@@ -1,6 +1,7 @@
+
 {% extends 'shop/base.html' %}
 
-
+{% load static %}
 {% block content %}
 
 <h1>homepage</h1>
@@ -16,9 +17,9 @@
             {% for product in products %}
                 {% if product.category == category %}
                     <li>
-                        <a href="{% url 'product_detail' product.id %}">
+                        <a href="{% url 'product_detail' product.id product.slug %}">
                             {{ product.name }}
-                            <img src="{{ product.image.url }}" width="200" height="200" alt="{{ product.name }}">
+                            <img src="{{ product.image.url }}" width="300" height="200" alt="{{ product.name }}">
                         </a>
                     </li>
                 {% endif %}
