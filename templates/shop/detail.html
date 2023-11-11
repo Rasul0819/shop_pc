@@ -1,15 +1,29 @@
-{% extends 'shop/base.html' %}
 
 
+{% extends "shop/base.html" %}
+{% load static %}
+{% block title %}
+{{ product.name }}
+{% endblock %}
 {% block content %}
-    <div class="product-detail">
-        <h2>{{ product.name }}</h2>
-        <p>Price: {{ product.price }}</p>
+<div class="product-detail">
+    {% if product.image %}
+    <img src="{{ product.image.url }}" alt="Product Image">
+{% endif %}
+<h1>{{ product.name }}</h1>
+<h2>
+<a href="{{ product.category.get_absolute_url }}">{{product.category }}</a>
+</h2>
+<p class="price">${{ product.price }}</p>
+<form action="{% url 'cart:cart_add' product.id %}" method="post">
+    {{ cart_product_form }}
+    {% csrf_token %}
+    <input type="submit" value="Korzinkaga qosiw">
+    
 
-        {% if product.image %}
-            <img src="{{ product.image.url }}" alt="Product Image">
-        {% endif %}
+</form>
+{{ product.description|linebreaks }}
+</div>
 
-        <p>Description: {{ product.description }}</p>
-    </div>
+
 {% endblock %}

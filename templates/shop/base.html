@@ -6,21 +6,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Base  </title>
     <link href="{% static "css/base.css" %}" rel="stylesheet">
+    <div id="header">
+        <a href="/" class="logo">Pc Shop</a>
+    </div>
 
     
+
 </head>
-<body class="container">
-    <ul class="list-group">
-        <li class="list-group-item">
-            User : {{user}}
-        </li>
-        <li>
-            <a href="{% url 'homepage' %}">Home</a>
+<div id="subheader">
+    <div class="cart">
+        {% with total_items=cart|length %}
+        {% if cart|length > 0 %}
+        Korzinkada:
+        <a href="{% url 'cart:cart_detail' %}">
+            {{ total_items }} shtuk , ${{ cart.get_total_price }}
+        </a> 
+        {% else %}
+        korzinka bos
+        {% endif %}
+        {% endwith %}
 
-        </li>
-    </ul>
-    {% block content %}
+    </div>
+</div>
+    <div id="content">
+        {% block content %}{% endblock %}
+    </div>
 
-    {% endblock %}
-</body>
 </html>

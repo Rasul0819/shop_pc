@@ -2,7 +2,7 @@ from django.urls import path
 from . import views
 from django.conf import settings
 from django.conf.urls.static import static
-
+app_name = 'shop'
 urlpatterns = [
     path('',views.homepage,name='homepage'),
     path('login/',views.loginuser,name='login'),
