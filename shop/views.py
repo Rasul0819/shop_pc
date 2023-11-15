@@ -5,10 +5,6 @@ from .forms import UserCreationFormByMe
 from django.contrib import messages
 
 
-def homepage(request):
-    categories = Category.objects.all()
-    products = Product.objects.filter(available=True)
-    return render(request, 'shop/home.html', {'categories': categories, 'products': products})
 
 def loginuser(request):
     # return render(request,'users/login.html')
@@ -18,7 +14,7 @@ def loginuser(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            return redirect('homepage')
+            return redirect('shop:product_list')
         else:
             # Обработка неправильных учетных данных
             return render(request, 'users/login.html', {'error': 'Invalid username or password.'})
@@ -27,7 +23,7 @@ def loginuser(request):
 
 def logoutuser(request):
     logout(request)
-    return redirect('homepage')
+    return redirect('shop:product_list')
 
 
 
@@ -43,7 +39,7 @@ def register(request):
         form.save()
         user = form.cleaned_data.get('username')
         messages.success(request, 'Account was created for ' + user)
-        return redirect('homepage')
+        return redirect('shop:product_list')
     else:
         print('Form is not valid')
         messages.error(request, 'Error Processing Your Request')
@@ -59,7 +55,7 @@ def product_list(request, category_slug=None):
     if category_slug:
         category = get_object_or_404(Category, slug=category_slug)
         products = products.filter(category=category)
-    return render(request, 'shop/product/list.html',
+    return render(request, 'shop/home.html',
                   {
                       'category': category,
                       'categories': categories,

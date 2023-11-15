@@ -9,9 +9,14 @@
     <div id="header">
         <a href="/" class="logo">Pc Shop</a>
     </div>
-
+    {% if user.is_authenticated %}
+    <p>{{user.username}}</p>
+    <a href="{% url 'shop:logout' %}">Logout</a>
+{% else %}
+    <a href="{% url 'shop:login' %}">Login</a>
+    <a href="{% url 'shop:register' %}">Register</a>
+{% endif %}
     
-
 </head>
 <div id="subheader">
     <div class="cart">
