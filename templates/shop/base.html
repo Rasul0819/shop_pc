@@ -22,12 +22,12 @@
     <div class="cart">
         {% with total_items=cart|length %}
         {% if cart|length > 0 %}
-        Korzinkada:
+        На корзине:
         <a href="{% url 'cart:cart_detail' %}">
-            {{ total_items }} shtuk , ${{ cart.get_total_price }}
+            {{ total_items }} штук , ${{ cart.get_total_price }}
         </a> 
         {% else %}
-        korzinka bos
+        Корзина пуста
         {% endif %}
         {% endwith %}
 

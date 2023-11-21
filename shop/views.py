@@ -3,7 +3,7 @@ from django.contrib.auth import login,logout,authenticate
 from .models import User ,Product , Category
 from .forms import UserCreationFormByMe
 from django.contrib import messages
-
+from cart.forms import CartAddProductForm
 
 
 def loginuser(request):
@@ -64,9 +64,11 @@ def product_list(request, category_slug=None):
 
 
 
+
 def product_detail(request, id, slug):
-    product = get_object_or_404(Product, id=id, slug=slug)
-    return render(request, 'shop/detail.html', {'product': product})
+    product = get_object_or_404(Product, id=id, slug=slug, available=True)
+    cart_product_form = CartAddProductForm()
+    return render(request, 'shop/detail.html', {'product': product,'cart_product_form':cart_product_form })
     
 
 
