@@ -2,7 +2,7 @@
 from django.contrib import admin
 from django.utils.safestring import mark_safe
 
-from .models import Category, Product
+from .models import Category, Product,Review
 from .models import User
 
 @admin.register(User)
@@ -35,3 +35,10 @@ class ProductAdmin(admin.ModelAdmin):
         return "None"
 
     image_show.__name__ = "Картинка"
+
+
+@admin.register(Review)
+class ReviewAdmin(admin.ModelAdmin):
+    list_display = ['title','product','rating','user','created_at']
+    list_filter  = ['rating','created_at']
+    list_display_links=['product','title','user']
