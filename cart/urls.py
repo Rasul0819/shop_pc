@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from shop.views import add_review
 
 app_name = 'cart'
 
@@ -11,4 +12,8 @@ urlpatterns = [
     path('remove/<int:product_id>/',
          views.cart_remove,
          name='cart_remove'),
+
+         
+
+         
 ]

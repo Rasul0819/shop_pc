@@ -10,6 +10,7 @@ urlpatterns = [
     path('register/',views.register, name='register'),
     path('product/<int:id>/<slug:slug>/', views.product_detail, name='product_detail'),
     path('category/<slug:category_slug>/', views.product_list, name='product_list_by_category'),
+    path('add_review/<int:product_id>/', views.add_review, name='add_review'),
 
 
 ]

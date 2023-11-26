@@ -21,4 +21,23 @@
 </form>
 {{ product.description|linebreaks }}
 </div>
+
+
+<!-- Отображение отзывов -->
+<div class="reviews">
+    <h2>Отзывы</h2>
+    {% if reviews %}
+        <ul>
+            {% for review in reviews %}
+                <li>
+                    <strong>{{ review.user.username }}</strong> - {{ review.created_at|date:"d.m.Y" }}
+                    <p>Рейтинг: {{ review.get_rating_display }}</p>
+                    <p>{{ review.body }}</p>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Пока нет отзывов для этого продукта.</p>
+    {% endif %}
+</div>
 {% endblock %}

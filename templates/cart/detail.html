@@ -55,6 +55,6 @@
   </table>
   <p class="text-right">
     <a href="{% url 'shop:product_list'%}" class="button light">В магазин</a>
-    <a href="#" class="button">Оформить заказ</a>
+    <a href="{% url 'shop:add_review' product_id=item.product.id %}" class="button">Оформить заказ</a>
   </p>
 {% endblock %}

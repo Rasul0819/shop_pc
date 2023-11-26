@@ -1,10 +1,10 @@
 from django.shortcuts import render,redirect,get_object_or_404
 from django.contrib.auth import login,logout,authenticate
-from .models import User ,Product , Category
-from .forms import UserCreationFormByMe
+from .models import User ,Product , Category,Review
+from .forms import UserCreationFormByMe,ReviewForm
 from django.contrib import messages
 from cart.forms import CartAddProductForm
-
+from django.contrib.auth.decorators import login_required
 
 def loginuser(request):
     # return render(request,'users/login.html')
@@ -67,8 +67,26 @@ def product_list(request, category_slug=None):
 
 def product_detail(request, id, slug):
     product = get_object_or_404(Product, id=id, slug=slug, available=True)
+    reviews = Review.objects.filter(product=product)
     cart_product_form = CartAddProductForm()
-    return render(request, 'shop/detail.html', {'product': product,'cart_product_form':cart_product_form })
+    return render(request, 'shop/detail.html', {'product': product,'cart_product_form':cart_product_form,'reviews': reviews,})
     
+
+@login_required  
+def add_review(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+    
+    if request.method == 'POST':
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            review = form.save(commit=False)
+            review.product = product
+            review.user = request.user
+            review.save()
+            return redirect('product_detail', id=product.id, slug=product.slug)
+    else:
+        form = ReviewForm()
+
+    return render(request, 'shop/add_review.html', {'form': form, 'product': product})
 
 
